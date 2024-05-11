@@ -15,7 +15,7 @@ const port = 4000;
 //     img:"alakh_pandey.png",
 //     subjects: "Physics"
 //    },   
-const teaches = [ 
+var teaches = [ 
     {
         "name": "Amit Sharma",
         "experience": 3,
@@ -120,13 +120,9 @@ const teaches = [
         "subjects": "maths physics",
         "education_level": "post graduate",
         "img": "Kunal_Patel.png"
-      }
-    ];
-
-
+      }];
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
-
 app.get("/",(req,res) =>
 res.render("index.ejs"));
 
@@ -156,6 +152,7 @@ app.post("/login_submit",async (req,res) =>
    console.log(data)
    try{
     const go = await axios.post("http://localhost:5000/chkpwd",data);
+     //teaches = go.data[2]
     if (go.data[1] === false)
         res.render("login.ejs",{message:"Invalid credentials"});
     else
@@ -203,7 +200,9 @@ app.post("/submit_t",async (req,res) =>{
     }
     send['subjects'] = intr.slice(0,intr.length-1);
     const go = await axios.post("http://localhost:5000/signup_t",send);
-    res.sendStatus(200);});
+    if(go.data === "ok")
+    res.render("index.ejs",{alert:"Teacher Registration Successful"})
+    });
 
 app.listen(port,()=>
 {

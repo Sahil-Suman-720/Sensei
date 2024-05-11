@@ -47,7 +47,14 @@ def checkpwd():
         print(res)
         # ratings = create_connection()[1]
         # bookings = ratings.find({"__id":})
-        return [compare_hash['name'],res]
+        teacher = create_connection()[1]
+        data = teacher.find({},{"name":1,"exp":1,"subjects":1,"academic_level":1,"img_url":1})
+        lst_end = []
+        for data in data:
+            entry = {"name":data["name"],"experience":data["exp"],"subjects":data["subjects"],"education_level":data["academic_level"],"img":data["img_url"]}
+            lst_end.append(entry)
+        print(lst_end)
+        return [compare_hash['name'],res,lst_end]
     else:
         return ["NoName",False]
 
